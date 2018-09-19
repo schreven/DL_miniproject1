@@ -59,8 +59,8 @@ optimizer = torch.optim.SGD#
 
 
 #Apply training and testing once on given data
-trn_error, vldt_error, err_array = Validate.Single_test(Nets.Net2, model_params, train_input, train_target,
-                                                        test_input, test_target, *singleval_params)
+trn_error, vldt_error, err_array = Validate.Single_test(Net, model_params, criterion, optimizer, 
+                                                        train_input, train_target, test_input, test_target, *singleval_params)
 #Apply crossvalidation
 trn_error, vldt_error, err_array = Validate.Cross_validation_mxk(Net, model_params, criterion, optimizer, train_input, train_target, *crossval_params)
 
@@ -80,7 +80,7 @@ ker_conv = [5]             #convolutional layers, kernel sizes
 ker_pool = [2]              #max_pool filter, kernel sizes
 nb_hidden = [15,5]          # nb hidden neurons in linear layers
 
-len_IN_lin = chn_conv[-1]*((size[2]-ker_conv[0]+1)/ker_pool[0])
+len_IN_lin = int(chn_conv[-1]*((size[2]-ker_conv[0]+1)/ker_pool[0]))
 
 
 model_params = [size, chn_conv, ker_conv, ker_pool, nb_hidden, len_IN_lin]
@@ -99,7 +99,8 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam
 
 #Apply training and testing once on given data
-#trn_error, vldt_error, err_array = Validate.Single_test(Nets.Net2, model_params, train_input, train_target, test_input, test_target, *singleval_params)
+trn_error, vldt_error, err_array = Validate.Single_test(Net, model_params, criterion, optimizer,
+                                                        train_input, train_target, test_input, test_target, *singleval_params)
 #Apply crossvalidation
 trn_error, vldt_error, err_array = Validate.Cross_validation_mxk(Net, model_params, criterion, optimizer, train_input, train_target, *crossval_params)
 
